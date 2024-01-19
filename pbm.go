@@ -31,24 +31,24 @@ func ReadPBM(filename string) (*PBM, error) {
 
 	// Check if it is a valid PBM magic number
 	if magicNumber != "P1" && magicNumber != "P4" {
-		return nil, errors.New("Invalid PBM magic number")
+		return nil, errors.New("invalid pbm magic number")
 	}
 
 	// Read width and height
 	scanner.Scan()
 	dimensions := strings.Fields(scanner.Text())
 	if len(dimensions) != 2 {
-		return nil, errors.New("Invalid dimensions")
+		return nil, errors.New("invalid dimensions")
 	}
 
 	width, err := strconv.Atoi(dimensions[0])
 	if err != nil {
-		return nil, errors.New("Invalid width")
+		return nil, errors.New("invalid width")
 	}
 
 	height, err := strconv.Atoi(dimensions[1])
 	if err != nil {
-		return nil, errors.New("Invalid height")
+		return nil, errors.New("invalid height")
 	}
 
 	// Read image data
@@ -119,6 +119,7 @@ func (pbm *PBM) Set(x, y int, value bool) {
 
 // Save saves the PBM image to a file and returns an error if there was a problem.
 func (pbm *PBM) Save(filename string) error {
+	var err error
 	file, err := os.Create(filename)
 	if err != nil {
 		return err
@@ -189,7 +190,7 @@ func (pbm *PBM) SetMagicNumber(magicNumber string) {
 }
 
 func main() {
-	filename := "C:/Users/JENGO/Netbpm/sample_640426.pbm"
+	filename := "C:/Users/ferra/OneDrive/Documents/Ynov/Projets/Netpbm/sample_640426.pbm"
 	pbm, err := ReadPBM(filename)
 	if err != nil {
 		fmt.Println("Error:", err)
