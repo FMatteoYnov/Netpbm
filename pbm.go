@@ -8,16 +8,16 @@ import (
 	"strings"
 )
 
-// PBM represents a PBM image.
+// PBM stands for a PBM image.
 type PBM struct {
 	data          [][]bool
 	width, height int
 	magicNumber   string
 }
 
-// ReadPBM reads a PBM image from a file and returns a struct that represents the image.
+// ReadPBM loads a PBM image from a file and returns a structure depicting the image.
 func ReadPBM(filename string) (*PBM, error) {
-	// Ouvrir le fichier
+	// Open file
 	file, err := os.Open(filename)
 	if err != nil {
 		fmt.Println("Erreur lors de l'ouverture du fichier :", err)
@@ -30,22 +30,22 @@ func ReadPBM(filename string) (*PBM, error) {
 	scanner.Scan()
 	MagicNumber := scanner.Text()
 
-	// Ignore comments
+	// Disregard annotations.
 	for strings.HasPrefix(scanner.Text(), "#") {
 		scanner.Scan()
 	}
 
-	// Check for unexpected EOF
+	// Verify for unanticipated end of file.
 	if scanner.Err() == io.EOF {
 		return nil, fmt.Errorf("unexpected EOF after ignoring comments")
 	}
 
-	// Read width and height
+	// Acquire dimensions of width and height.
 	scanner.Scan()
 	var Width, Height int
 	fmt.Sscanf(scanner.Text(), "%d %d", &Width, &Height)
 
-	// Read P1 or P4 data based on the magic number
+	// Interpret P1 or P4 data depending on the magic number.
 	var Data [][]bool
 	if MagicNumber == "P1" {
 		Data, err = readP1(scanner, Width, Height)
